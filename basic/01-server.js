@@ -51,7 +51,15 @@ function respondStatic(req, res) {
 
 function respondChat(req, res) {
 	const { message } = req.query;
-	chatEmitter.emit('message', message)
+	chatEmitter.emit('message', message);
+
+	// log
+	fs.appendFile(`${__dirname}/chatLog.txt`, message + '\n', (err) => {
+		if(err) {
+			console.error(`Error writing to chat log: ${err}`)
+		}
+	})
+
 	res.end();
 }
 
@@ -61,11 +69,43 @@ function respondSSE(req, res) {
 		'Connection': 'keep-alive'
 	});
 
-	const onMessage = msg => res.write(`data: ${msg}\n\n`)
+	// Read previous messages from the chat log file
+	fs.readFile(`${__dirname}/chatLog.txt`, 'utf8', (err,data) => {
+		if(err) {
+			console.error(`Error reading chat log: ${err}`)
+		} else {
+			data.split('\n').forEach((msg) => {
+				if(msg.trim() !== '') {
+					res.write(`data: ${msg}\n\n`);
+				}
+			});
+		}
+	})
+
+	const onMessage = (msg) => {
+		// append the old/new message to the chat log file
+		fs.appendFile(`${__dirname}/chatLog.txt`, msg + "\n", (err) => {
+			if(err) console.error(`Error writing to chat log: ${err}`)
+		})
+		res.write(`data: ${msg}`)
+	}
+
 	chatEmitter.on('message', onMessage)
 
 	res.on('close', function () {
 		chatEmitter.off('message', onMessage)
+	})
+}
+
+function respondPreviousMessage(req, res) {
+	fs.readFile('chatLog.txt', 'utf8', (err, data) => {
+		if(err) {
+			console.error(`Error reading chat log: ${err}`);
+			res.status(500).end('Internal Server Error');
+		} else {
+			res.setHeader('Content-Type', 'text/plain')
+			res.end(data)
+		}
 	})
 }
 
@@ -75,6 +115,7 @@ app.get('/echo', respondEcho)
 app.get('/static/*', respondStatic)
 app.get('/chat', respondChat)
 app.get('/sse', respondSSE)
+app.get('/previous-message', respondPreviousMessage)
 
 app.listen(port)
 console.log(`Server listening on port ${port}`)
