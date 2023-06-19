@@ -2,6 +2,7 @@ const autoCatch = require('./lib/auto-catch');
 const Products = require('./product_lists');
 const User = require('./schemas/user.schema')
 const { Orders, listOrders: userOrders } = require('./schemas/orders.schema');
+const db = require('./config/checkHealth')
 
 async function listProducts(req, res) {
 	const { limit = 25, offset = 0, tag } = req.query;
@@ -42,6 +43,7 @@ async function listOrders(req, res, next) {
 async function createUser(req, res, next) {
 	const user = await User.create(req.body)
 	const { username, email } = user;
+	req.log.info({username, email}, 'user created')
 	res.json({ username, email })
 }
 
@@ -75,6 +77,11 @@ async function deleteProduct(req, res, next) {
 	res.json({ success: true })
 }
 
+async function checkHealth(req, res, next) {
+	await db.checkHealth();
+	res.json({status: 'Ok!'})
+}
+
 module.exports = autoCatch({ 
 	listProducts, 
 	getProduct, 
@@ -84,4 +91,5 @@ module.exports = autoCatch({
 	createOrder, 
 	listOrders, 
 	createUser,
+	checkHealth
 })

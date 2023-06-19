@@ -1,4 +1,16 @@
+const pinoNoir = require('pino-noir')
+const pinoLogger =  require('express-pino-logger')
 const { STATUS_CODES } = require('http')
+
+function logger() {
+	return pinoLogger({
+		serializers: pinoNoir([
+			'res.headers.set-cookie',
+			'res.headers.cookie',
+			'res.headers.authorization',
+		])
+	})
+}
 
 function cors(req, res, next) {
 	const origin = req.headers.origin;
@@ -35,4 +47,4 @@ function handleValidationError(err, req, res, next) {
 	res.status(statusCode).json({ error: errorMessage })
 }
 
-module.exports = { cors, handleError, notFound, handleValidationError }
+module.exports = { cors, handleError, notFound, handleValidationError, logger: logger() }
