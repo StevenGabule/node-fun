@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Web Server using ExpressJS</title>
+</head>
+<body>
+	<h1>Products</h1>
+	<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex odio doloribus laboriosam quos maxime, accusamus quae accusantium ipsa delectus, doloremque, saepe illo ipsam officia voluptate enim magnam modi consequuntur possimus?</p>
+
+	<script>
+			const url = "http://localhost:3000/products"
+			fetch(url).then(res => res.json()).then((product) => console.log(product))
+	</script>
+</body>
+</html>
