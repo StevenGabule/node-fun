@@ -6,25 +6,16 @@ const productsFile = path.join(__dirname, 'data/products.json');
 
 async function list(opts = {}) {
 	const { offset = 0, limit = 25, tag } = opts;
-
 	const query = tag ? { tags: tag } : {}
-
-	const products = await Product.find(query)
-		.sort({ _id: 1 })
-		.skip(offset)
-		.limit(limit);
-
-	return products;
+	return await Product.find(query).sort({ _id: 1 }).skip(offset).limit(limit);
 }
 
 async function get(_id) {
-	const product = await Product.findById(_id);
-	return product;
+	return await Product.findById(_id);
 }
 
 async function create(fields) {
-	const product = await new Product(fields).save();
-	return product;
+	return await new Product(fields).save();
 }
 
 async function edit(_id, change) {
@@ -32,8 +23,7 @@ async function edit(_id, change) {
 	Object.keys(change).forEach(function (key) {
 		product[key] = change[key]
 	})
-	await product.save();
-	return product;
+	return await product.save();
 }
 
 async function remove(_id) {

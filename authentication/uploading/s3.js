@@ -18,8 +18,10 @@ const params = {
 
 async function setProductImage(req, res) {
 	const productId = req.params.id;
-
-	const ext = { 'image/png': 'png', 'image/jpeg': 'jpg' }[req.headers['content-type']]
+	const ext = { 
+		'image/png': 'png', 
+		'image/jpeg': 'jpg' 
+	}[req.headers['content-type']]
 
 	if (!ext) throw new Error('Invalid Image Type')
 
@@ -33,7 +35,5 @@ async function setProductImage(req, res) {
 	const object = await s3.uploadP(params) // our custom promise version
 	const change = { img: object.Location }
 	const product = await Product.edit(productId, change)
-
 	res.json(product)
-
 }

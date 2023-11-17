@@ -1,26 +1,20 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-
 const pinoLogger = require('express-pino-logger')
 
 const middleware = require('./middleware/middleware');
-
 const api = require('./api');
 const auth = require('./auth');
-
 const port = process.env.PORT || 1337;
-
 const app = express();
 
 app.disable('x-powered-by')
-
 app.use(pinoLogger())
 app.use(middleware.logger)
 app.use(middleware.cors)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-
 app.get('/health', api.checkHealth)
 
 // ** AUTHENTICATION

@@ -33,11 +33,11 @@ function handleError(err, req, res, next) {
 	res.status(500).json({ error: 'Internal Error' })
 }
 
-function notFound(req, res) {
+function notFound(_req, res) {
 	res.status(404).json({ error: 'Not Found!' })
 }
 
-function handleValidationError(err, req, res, next) {
+function handleValidationError(err, _req, res, next) {
 	console.error(err);
 
 	if (res.headersSent) return next(err)

@@ -13,13 +13,13 @@ function cors(req, res, next) {
 	next();
 }
 
-function handleError(err, req, res, next) {
+function handleError(err, _req, res, next) {
 	console.log(err);
 	if (res.headersSent) return next(err)
 	res.status(500).json({error: 'Internal Error'})
 }
 
-function notFound(req, res) {
+function notFound(_req, res) {
 	res.status(404).json({error: 'Not Found!'})
 }
 

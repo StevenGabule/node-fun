@@ -1,5 +1,5 @@
 const fs = require('fs')
-const filename = 'callback.js'
+const filename = './async/callback.js'
 
 fs.readFile(filename, (err, fileData) => {
 	if(err) return console.error(err);

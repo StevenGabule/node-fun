@@ -28,11 +28,11 @@ function usernameSchema() {
 			},
 			{
 				validator: str => !str.match(/^admin$/i),
-				message: props => `Invalid username`
+				message: props => `Invalid ${props.value}`
 			},
 			{
 				validator: function (username) { return isUnique(this, username) },
-				message: props => `Username is taken`
+				message: props => `${props.value} is taken`
 			},
 		]
 	}

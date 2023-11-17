@@ -14,13 +14,8 @@ async function printLength(file) {
 
 async function printLengthDir(dir) {
 	const fileList = await fs.readdir(dir)
-
-	const results = await Promise.all(
-		fileList.map((file) => fs.readFile(file).then(data => [file, data.length]))
-	)
-
+	const results = await Promise.all(fileList.map((file) => fs.readFile(file).then(data => [file, data.length])))
 	results.forEach((result) => console.log(`${result[0]}: ${result[1]}`))
-	
 	console.log('Done!');
 }
 
@@ -38,12 +33,10 @@ async function readFile(filePath) {
 
 async function getFileLengths(dir) {
 	const fileList = await fs.readdir(dir)
-	
 	const readFiles = fileList.map(async (file) => {
 		const filePath = path.join(dir, file);
 		return await readFile(filePath)
 	})
-
 	return await Promise.all(readFiles);
 }
 

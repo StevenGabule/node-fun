@@ -1,8 +1,8 @@
 const http = require('http');
-let fs = require('fs');
+const express = require('express')
+const fs = require('fs');
 const querystring = require('querystring');
 const port = process.env.PORT || 1337;
-const express = require('express')
 const app = express();
 const EventEmitter = require('events')
 const chatEmitter = new EventEmitter();

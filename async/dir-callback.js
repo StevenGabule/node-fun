@@ -1,8 +1,7 @@
-const fs = require('fs')
-const directoryPath = 'callback.js'
+const fs = require('fs');
+const directoryPath = './async';
 
 fs.readdir(directoryPath, (err, fileList) => {
 	if (err) return console.error(err);
-
-	console.log(fileList);
+	fileList.map(fl => console.log(fl, fl.length))
 })

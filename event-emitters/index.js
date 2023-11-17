@@ -2,7 +2,6 @@ const readline = require('readline')
 const http = require('http')
 const querystring = require('querystring')
 const { EventEmitter } = require('stream')
-
 const rl = readline.createInterface({input: process.stdin})
 
 function createEventSource(url) {

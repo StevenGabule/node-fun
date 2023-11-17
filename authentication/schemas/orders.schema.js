@@ -67,6 +67,4 @@ async function listOrders(opts = {}) {
 	return withProducts;
 }
 
-
-
 module.exports = { Orders, get, create, listOrders }

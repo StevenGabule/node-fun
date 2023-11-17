@@ -27,7 +27,7 @@ const {Transform} = require('stream')
 
 function shout() {
 	return new Transform({
-		transform(chunk, encoding, callback) {
+		transform(chunk, _encoding, callback) {
 			callback(null, chunk.toString().toUpperCase())
 		}
 	})
